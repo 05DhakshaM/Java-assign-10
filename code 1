@@ -1,0 +1,65 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class TrafficLightSimulator extends JFrame implements ActionListener {
+    private JRadioButton redButton, yellowButton, greenButton;
+    private JLabel messageLabel;
+
+    public TrafficLightSimulator() {
+      
+        setTitle("Traffic Light Simulator");
+        setSize(300, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+     
+        redButton = new JRadioButton("Red");
+        yellowButton = new JRadioButton("Yellow");
+        greenButton = new JRadioButton("Green");
+
+      
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(redButton);
+        buttonGroup.add(yellowButton);
+        buttonGroup.add(greenButton);
+
+        redButton.addActionListener(this);
+        yellowButton.addActionListener(this);
+        greenButton.addActionListener(this);
+
+        
+        messageLabel = new JLabel("Select a traffic light color");
+        messageLabel.setForeground(Color.BLACK);
+
+
+        add(redButton);
+        add(yellowButton);
+        add(greenButton);
+        add(messageLabel);
+
+        
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == redButton) {
+            showMessage("Stop", Color.RED);
+        } else if (e.getSource() == yellowButton) {
+            showMessage("Ready", Color.YELLOW);
+        } else if (e.getSource() == greenButton) {
+            showMessage("Go", Color.GREEN);
+        }
+    }
+
+    private void showMessage(String message, Color color) {
+        messageLabel.setText(message);
+        messageLabel.setForeground(color);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TrafficLightSimulator());
+    }
+}
