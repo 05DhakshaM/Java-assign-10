@@ -1,0 +1,91 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ShapeDrawingApplet extends Applet implements ActionListener {
+    private String selectedShape = "Circle";
+    private Color foregroundColor = Color.BLACK;
+    private Color backgroundColor = Color.WHITE;
+
+    private CheckboxGroup shapeCheckboxGroup;
+    private Checkbox circleCheckbox, squareCheckbox, rectangleCheckbox;
+    private Button drawButton;
+    private TextField foregroundColorField, backgroundColorField;
+
+    @Override
+    public void init() {
+        
+        setLayout(new FlowLayout());
+
+       
+        shapeCheckboxGroup = new CheckboxGroup();
+        circleCheckbox = new Checkbox("Circle", shapeCheckboxGroup, false);
+        squareCheckbox = new Checkbox("Square", shapeCheckboxGroup, false);
+        rectangleCheckbox = new Checkbox("Rectangle", shapeCheckboxGroup, false);
+
+        drawButton = new Button("Draw");
+        drawButton.addActionListener(this);
+
+        foregroundColorField = new TextField("Foreground Color (e.g., RED)");
+        backgroundColorField = new TextField("Background Color (e.g., YELLOW)");
+
+    
+        add(circleCheckbox);
+        add(squareCheckbox);
+        add(rectangleCheckbox);
+        add(drawButton);
+        add(foregroundColorField);
+        add(backgroundColorField);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if (circleCheckbox.getState()) {
+            selectedShape = "Circle";
+        } else if (squareCheckbox.getState()) {
+            selectedShape = "Square";
+        } else if (rectangleCheckbox.getState()) {
+            selectedShape = "Rectangle";
+        }
+
+        try {
+            foregroundColor = Color.decode(foregroundColorField.getText());
+        } catch (NumberFormatException ex) {
+            foregroundColor = Color.BLACK;
+        }
+
+      
+        try {
+            backgroundColor = Color.decode(backgroundColorField.getText());
+        } catch (NumberFormatException ex) {
+            backgroundColor = Color.WHITE;
+        }
+
+     
+        repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+       
+        setBackground(backgroundColor);
+
+       
+        g.setColor(foregroundColor);
+
+      
+        switch (selectedShape) {
+            case "Circle":
+                g.fillOval(50, 50, 100, 100);
+                break;
+            case "Square":
+                g.fillRect(50, 50, 100, 100);
+                break;
+            case "Rectangle":
+                g.fillRect(50, 50, 150, 100);
+                break;
+        }
+    }
+}
